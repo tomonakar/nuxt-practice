@@ -1,81 +1,76 @@
 <template>
-  <div>
-    <label :for="labelId">{{ labelName }}</label>
-    <input
-      :id="labelId"
-      v-model="value"
-      type="inputType"
-      :placeholder="placeHolder"
-    />
-    <br />
-    <span class="error">{{ errorMessage }}</span>
-  </div>
+  <c-form-control :for='labelId'>
+    <c-form-label :id='labelId'>{{labelName}}</c-form-label>
+    <c-input :id='labelId' :placeholder='placeHolder' v-model='value' />
+    <c-text color='red.500'>{{errorMessage}}</c-text>
+
+  </c-form-control>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import {
   defineComponent,
   watch,
   PropType,
   ref,
-  SetupContext,
-} from '@nuxtjs/composition-api'
+  SetupContext
+} from '@nuxtjs/composition-api';
 
-import { Domain } from '~/domain/types'
+import { Domain } from '~/domain/types';
 
 export default defineComponent({
   name: 'CustomInputForm',
   props: {
     validation: {
-      type: Function as PropType< Domain['validation']>,
-      required: true,
+      type: Function as PropType<Domain['validation']>,
+      required: true
     },
     labelName: {
       type: String,
-      required: true,
+      required: true
     },
     labelId: {
       type: String,
-      required: true,
+      required: true
     },
     inputType: {
       type: String,
-      required: true,
+      required: true
     },
     placeHolder: {
       type: String,
-      required: true,
+      required: true
     },
     inputName: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   setup(props, { emit }: SetupContext) {
-    const value = ref('')
-    const errorMessage = ref('')
-    const isValid = ref(false)
+    const value = ref('');
+    const errorMessage = ref('');
+    const isValid = ref(false);
     watch(
       value,
       () => {
-        isValid.value = false
-        errorMessage.value = ''
-        emit('input', value.value)
+        isValid.value = false;
+        errorMessage.value = '';
+        emit('input', value.value);
         try {
 
-          // props.domainName.validation(value.value)
-          props.validation(value.value)
-          isValid.value = true
+          props.validation(value.value);
+          isValid.value = true;
+          console.log(isValid.value)
         } catch (e) {
-          errorMessage.value = e.message
+          errorMessage.value = e.message;
         }
-      },
-    )
+      }
+    );
     return {
       errorMessage,
       value,
-      isValid,
-    }
-  },
-})
+      isValid
+    };
+  }
+});
 </script>
