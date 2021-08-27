@@ -1,8 +1,8 @@
 <template>
   <c-form-control :for='labelId'>
-    <c-form-label :id='labelId'>{{labelName}}</c-form-label>
+    <c-form-label :id='labelId'>{{ labelName }}</c-form-label>
     <c-input :id='labelId' :placeholder='placeHolder' v-model='value' />
-    <c-text color='red.500'>{{errorMessage}}</c-text>
+    <c-text color='red.500'>{{ errorMessage }}</c-text>
 
   </c-form-control>
 </template>
@@ -60,7 +60,7 @@ export default defineComponent({
 
           props.validation(value.value);
           isValid.value = true;
-          console.log(isValid.value)
+          console.log(isValid.value);
         } catch (e) {
           errorMessage.value = e.message;
         }
