@@ -1,18 +1,20 @@
 <template>
   <div>
-    <slot :isValid="isValid"></slot>
+    <slot :isValid='isValid'></slot>
   </div>
 </template>
-<script lang="ts">
-import Vue from 'vue'
-import { defineComponent, computed } from '@vue/composition-api'
+
+<script lang='ts'>
+import Vue from 'vue';
+import { defineComponent, computed } from '@nuxtjs/composition-api';
 
 type Props = {
   observer: any
+  // forms: object
 }
 
 interface ValidationVue extends Vue {
-  isValid: boolean
+  isValid: boolean;
 }
 
 export default defineComponent({
@@ -20,18 +22,18 @@ export default defineComponent({
   props: {
     observer: {
       type: Object,
-      required: false,
-    },
+      required: false
+    }
   },
   setup(props: Props) {
     const isValid = computed(() => {
       return (
         props.observer?.$children.every((component: ValidationVue) => {
-          return component?.isValid ?? false
+          return component?.isValid ?? true;
         }) ?? false
-      )
-    })
-    return { isValid }
-  },
-})
+      );
+    });
+    return { isValid};
+  }
+});
 </script>

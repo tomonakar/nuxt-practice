@@ -1,18 +1,20 @@
 <template>
-  <c-form-control :for='labelId'>
-    <c-form-label :id='labelId'>{{ labelName }}</c-form-label>
-    <c-input :id='labelId' :placeholder='placeHolder' v-model='value' />
-    <c-text color='red.500'>{{ errorMessage }}</c-text>
+  <div>
+    <c-form-control :for='labelId'>
+      <c-form-label :id='labelId'>{{ labelName }}</c-form-label>
+      <c-input :id='labelId' :placeholder='placeHolder' v-model='value' />
+      <c-text color='red.500'>{{ errorMessage }}</c-text>
 
-  </c-form-control>
+    </c-form-control>
+  </div>
 </template>
 
 <script lang='ts'>
 import {
+  ref,
   defineComponent,
   watch,
   PropType,
-  ref,
   SetupContext
 } from '@nuxtjs/composition-api';
 
@@ -50,17 +52,20 @@ export default defineComponent({
     const value = ref('');
     const errorMessage = ref('');
     const isValid = ref(false);
+
     watch(
       value,
       () => {
+        console.log('form watch')
+        console.log('form value', value.value)
+        console.log('form isValid', isValid.value)
         isValid.value = false;
         errorMessage.value = '';
         emit('input', value.value);
         try {
-
           props.validation(value.value);
           isValid.value = true;
-          console.log(isValid.value);
+
         } catch (e) {
           errorMessage.value = e.message;
         }
